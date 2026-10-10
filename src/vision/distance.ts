@@ -44,14 +44,22 @@ function focalPx(frameW: number, frameH: number): number {
   return longSide / 2 / Math.tan(halfFov);
 }
 
-function proximityFor(distanceM: number | null, _areaFrac: number): Proximity {
+/**
+ * `estimateM` is the size-based distance. For a box cut off by the frame edge it is an UPPER bound: part of the object
+ * is out of view, so the box looks shorter than it is and the object is really closer than the estimate.
+ */
+function proximityFor(estimateM: number | null, areaFrac: number, clipped: boolean): Proximity {
   const d = CONFIG.distance;
-  // A bounding box can be large because the object itself is large (a bus or
-  // truck), not because it is close. Do not use image area as a safety trigger.
-  // Camera-only range remains an estimate; the future depth/ultrasonic sensor
-  // is the authority for an immediate physical warning.
-  if (distanceM !== null && distanceM < d.visualVeryNearM) return "very_near";
-  if (distanceM !== null && distanceM < d.visualNearM) return "near";
+  // A bounding box can be large because the object itself is large (a bus or truck), not because it is close, so an
+  // unclipped box is judged by its size-based distance only.
+  // With the phone at chest height the ground is out of view for the first ~2 m, so anything standing close to the
+  // user has its base cut off by the frame edge. Treating every clipped box as "far" meant close obstacles never
+  // vibrated. A clipped box that also fills much of the frame is close; a distant bus or truck is not clipped.
+  // The closer of the two signals wins.
+  if (estimateM !== null && estimateM < d.visualVeryNearM) return "very_near";
+  if (clipped && areaFrac >= d.veryNearAreaFrac) return "very_near";
+  if (estimateM !== null && estimateM < d.visualNearM) return "near";
+  if (clipped && areaFrac >= d.nearAreaFrac) return "near";
   return "far";
 }
 
@@ -63,18 +71,14 @@ export function enrich(raw: RawDetection[], frameW: number, frameH: number): Det
     const areaFrac = (w * h) / (frameW * frameH);
     const clippedVertically = y <= EDGE_PX || y + h >= frameH - EDGE_PX;
 
-    let distanceM: number | null = null;
+    let estimateM: number | null = null;
     const prior = HEIGHT_PRIOR_M[r.label];
-    if (prior && h > 0) {
-      distanceM = (prior * f) / h;
-      // Clipping makes a monocular size estimate unreliable. Never promote a
-      // clipped detection to an emergency range from image geometry alone.
-      if (clippedVertically) distanceM = null;
-      else distanceM = Math.round(distanceM * 10) / 10;
-    }
+    if (prior && h > 0) estimateM = Math.round(((prior * f) / h) * 10) / 10;
+    // A clipped box's estimate is only an upper bound, so no distance is SPOKEN for it; it still sets the proximity.
+    const distanceM = clippedVertically ? null : estimateM;
 
     const inPath = isInTrack(r.bbox, frameW, frameH);
 
-    return { ...r, distanceM, proximity: proximityFor(distanceM, areaFrac), inPath };
+    return { ...r, distanceM, proximity: proximityFor(estimateM, areaFrac, clippedVertically), inPath };
   });
 }
