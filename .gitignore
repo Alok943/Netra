@@ -19,3 +19,8 @@ ml/export/*.log
 ml/wakeword/data/
 ml/wakeword/out/
 ml/wakeword/gen.log
+
+# Local only
+prompts-original.md
+runs/
+

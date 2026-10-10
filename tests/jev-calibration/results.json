@@ -1,0 +1,3535 @@
+{
+  "ranAt": "2026-10-10T01:51:56.297Z",
+  "jevModelRequested": "jev-latest",
+  "jevModelReported": "jev-1.13.0",
+  "appThresholds": {
+    "confidenceThreshold": 0.8,
+    "clientBudgetMs": 1500
+  },
+  "questions": {
+    "route": {
+      "type": "choice",
+      "instructions": "Which handler should answer this blind user's query?",
+      "criteria": {
+        "rule_reply": "Simple answer from object detections alone (what/how many objects, how near).",
+        "gemini_live": "Needs reading text, currency, scene understanding, judgement, or conversation."
+      }
+    },
+    "speak_now": {
+      "type": "noul",
+      "instructions": "Should the assistant speak to the user right now?"
+    }
+  },
+  "results": [
+    {
+      "id": "A-chair-0.45",
+      "group": "A single unsure object (the real trigger)",
+      "note": "chair 0.45 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.6,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 614,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.51
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.51,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-chair-0.38",
+      "group": "A single unsure object (the real trigger)",
+      "note": "chair 0.38 far",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "far",
+              "distance_m": 3.2,
+              "conf": 0.38,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 333,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.8,
+            "probabilities": {
+              "rule_reply": 0.9,
+              "gemini_live": 0.1
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.38
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.8,
+      "speakNoul": 0.38,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-bottle-0.41",
+      "group": "A single unsure object (the real trigger)",
+      "note": "bottle 0.41 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "bottle",
+              "distance": "near",
+              "distance_m": 1.2,
+              "conf": 0.41,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 348,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.48
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.48,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-backpack-0.44",
+      "group": "A single unsure object (the real trigger)",
+      "note": "backpack 0.44 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "backpack",
+              "distance": "near",
+              "distance_m": 1.4,
+              "conf": 0.44,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 338,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.92,
+            "probabilities": {
+              "rule_reply": 0.96,
+              "gemini_live": 0.04
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.49
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.92,
+      "speakNoul": 0.49,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-bench-0.36",
+      "group": "A single unsure object (the real trigger)",
+      "note": "bench 0.36 far",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "bench",
+              "distance": "far",
+              "distance_m": 3.5,
+              "conf": 0.36,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 331,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.82,
+            "probabilities": {
+              "rule_reply": 0.91,
+              "gemini_live": 0.09
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.35
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.82,
+      "speakNoul": 0.35,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-potted_plant-0.47",
+      "group": "A single unsure object (the real trigger)",
+      "note": "potted plant 0.47 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "potted plant",
+              "distance": "near",
+              "distance_m": 1.8,
+              "conf": 0.47,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 351,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.46
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.46,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-suitcase-0.4",
+      "group": "A single unsure object (the real trigger)",
+      "note": "suitcase 0.4 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "suitcase",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.4,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 326,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.55
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.55,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-dog-0.42",
+      "group": "A single unsure object (the real trigger)",
+      "note": "dog 0.42 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "dog",
+              "distance": "near",
+              "distance_m": 2,
+              "conf": 0.42,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 330,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.61
+          }
+        },
+        "usage": {
+          "input_tokens": 421,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.61,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-person-0.39",
+      "group": "A single unsure object (the real trigger)",
+      "note": "person 0.39 far",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "person",
+              "distance": "far",
+              "distance_m": 3,
+              "conf": 0.39,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 344,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.86,
+            "probabilities": {
+              "rule_reply": 0.93,
+              "gemini_live": 0.07
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.37
+          }
+        },
+        "usage": {
+          "input_tokens": 421,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.86,
+      "speakNoul": 0.37,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-bicycle-0.43",
+      "group": "A single unsure object (the real trigger)",
+      "note": "bicycle 0.43 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "bicycle",
+              "distance": "near",
+              "distance_m": 1.9,
+              "conf": 0.43,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 348,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.92,
+            "probabilities": {
+              "rule_reply": 0.96,
+              "gemini_live": 0.04
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.62
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.92,
+      "speakNoul": 0.62,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-motorcycle-0.46",
+      "group": "A single unsure object (the real trigger)",
+      "note": "motorcycle 0.46 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "motorcycle",
+              "distance": "near",
+              "distance_m": 1.7,
+              "conf": 0.46,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 339,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.92,
+            "probabilities": {
+              "rule_reply": 0.96,
+              "gemini_live": 0.04
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.67
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.92,
+      "speakNoul": 0.67,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-car-0.37",
+      "group": "A single unsure object (the real trigger)",
+      "note": "car 0.37 far",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "car",
+              "distance": "far",
+              "distance_m": 4,
+              "conf": 0.37,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 334,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.92,
+            "probabilities": {
+              "rule_reply": 0.96,
+              "gemini_live": 0.04
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.37
+          }
+        },
+        "usage": {
+          "input_tokens": 421,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.92,
+      "speakNoul": 0.37,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-handbag-0.35",
+      "group": "A single unsure object (the real trigger)",
+      "note": "handbag 0.35 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "handbag",
+              "distance": "near",
+              "distance_m": 1,
+              "conf": 0.35,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 324,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.86,
+            "probabilities": {
+              "rule_reply": 0.93,
+              "gemini_live": 0.07
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.52
+          }
+        },
+        "usage": {
+          "input_tokens": 422,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.86,
+      "speakNoul": 0.52,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-umbrella-0.48",
+      "group": "A single unsure object (the real trigger)",
+      "note": "umbrella 0.48 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "umbrella",
+              "distance": "near",
+              "distance_m": 1.3,
+              "conf": 0.48,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 349,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.57
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.57,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-cell_phone-0.33",
+      "group": "A single unsure object (the real trigger)",
+      "note": "cell phone 0.33 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "cell phone",
+              "distance": "near",
+              "distance_m": 0.9,
+              "conf": 0.33,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 320,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.38
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.38,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "A-book-0.31",
+      "group": "A single unsure object (the real trigger)",
+      "note": "book 0.31 near",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "book",
+              "distance": "near",
+              "distance_m": 0.8,
+              "conf": 0.31,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 340,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.74,
+            "probabilities": {
+              "rule_reply": 0.87,
+              "gemini_live": 0.13
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.42
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.74,
+      "speakNoul": 0.42,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "B-chair-conf-0.3",
+      "group": "B confidence sweep (chair, near)",
+      "note": "chair 0.3",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.3,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 355,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.47
+          }
+        },
+        "usage": {
+          "input_tokens": 422,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.47,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "B-chair-conf-0.35",
+      "group": "B confidence sweep (chair, near)",
+      "note": "chair 0.35",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.35,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 332,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.47
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.47,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "B-chair-conf-0.4",
+      "group": "B confidence sweep (chair, near)",
+      "note": "chair 0.4",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.4,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 380,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.5
+          }
+        },
+        "usage": {
+          "input_tokens": 422,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.5,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "B-chair-conf-0.45",
+      "group": "B confidence sweep (chair, near)",
+      "note": "chair 0.45",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 388,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.5
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.5,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "B-chair-conf-0.49",
+      "group": "B confidence sweep (chair, near)",
+      "note": "chair 0.49",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.49,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 317,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.52
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.52,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-toothbrush",
+      "group": "C odd objects (probable false positives)",
+      "note": "toothbrush 0.34",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "toothbrush",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.34,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 320,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.38
+          }
+        },
+        "usage": {
+          "input_tokens": 426,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.38,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-hair_drier",
+      "group": "C odd objects (probable false positives)",
+      "note": "hair drier 0.32",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "hair drier",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.32,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 330,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.45
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.45,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-teddy_bear",
+      "group": "C odd objects (probable false positives)",
+      "note": "teddy bear 0.4",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "teddy bear",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.4,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 317,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.46
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.46,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-kite",
+      "group": "C odd objects (probable false positives)",
+      "note": "kite 0.37",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "kite",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.37,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 324,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.61
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.61,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-sports_ball",
+      "group": "C odd objects (probable false positives)",
+      "note": "sports ball 0.45",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "sports ball",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 332,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.92,
+            "probabilities": {
+              "rule_reply": 0.96,
+              "gemini_live": 0.04
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.53
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.92,
+      "speakNoul": 0.53,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-tie",
+      "group": "C odd objects (probable false positives)",
+      "note": "tie 0.36",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "tie",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.36,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 334,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.47
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.47,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-vase",
+      "group": "C odd objects (probable false positives)",
+      "note": "vase 0.41",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "vase",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.41,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 340,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.52
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.52,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "C-scissors",
+      "group": "C odd objects (probable false positives)",
+      "note": "scissors 0.33",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "scissors",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.33,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 340,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.51
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.51,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "D-person-motorcycle-dog",
+      "group": "D busier scenes",
+      "note": "person 0.9 + motorcycle 0.8 + unsure dog",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "person",
+              "distance": "far",
+              "distance_m": 4,
+              "conf": 0.9,
+              "in_path": true
+            },
+            {
+              "label": "motorcycle",
+              "distance": "near",
+              "distance_m": 2.2,
+              "conf": 0.8,
+              "in_path": false
+            },
+            {
+              "label": "dog",
+              "distance": "near",
+              "distance_m": 1.6,
+              "conf": 0.42,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 334,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.8,
+            "probabilities": {
+              "rule_reply": 0.9,
+              "gemini_live": 0.1
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.63
+          }
+        },
+        "usage": {
+          "input_tokens": 475,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.8,
+      "speakNoul": 0.63,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "D-crowd-one-unsure",
+      "group": "D busier scenes",
+      "note": "5 people + unsure bag",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "person",
+              "distance": "near",
+              "distance_m": 2,
+              "conf": 0.85,
+              "in_path": true
+            },
+            {
+              "label": "person",
+              "distance": "near",
+              "distance_m": 2.4,
+              "conf": 0.82,
+              "in_path": true
+            },
+            {
+              "label": "person",
+              "distance": "far",
+              "distance_m": 3.5,
+              "conf": 0.8,
+              "in_path": true
+            },
+            {
+              "label": "person",
+              "distance": "far",
+              "distance_m": 4,
+              "conf": 0.78,
+              "in_path": true
+            },
+            {
+              "label": "person",
+              "distance": "far",
+              "distance_m": 4.5,
+              "conf": 0.74,
+              "in_path": true
+            },
+            {
+              "label": "handbag",
+              "distance": "near",
+              "distance_m": 1.2,
+              "conf": 0.41,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 360,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.82,
+            "probabilities": {
+              "rule_reply": 0.91,
+              "gemini_live": 0.09
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.65
+          }
+        },
+        "usage": {
+          "input_tokens": 554,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.82,
+      "speakNoul": 0.65,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "D-car-truck-unsure",
+      "group": "D busier scenes",
+      "note": "car + truck + unsure bus",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "car",
+              "distance": "far",
+              "distance_m": 6,
+              "conf": 0.9,
+              "in_path": false
+            },
+            {
+              "label": "truck",
+              "distance": "far",
+              "distance_m": 7,
+              "conf": 0.7,
+              "in_path": false
+            },
+            {
+              "label": "bus",
+              "distance": "near",
+              "distance_m": 3.5,
+              "conf": 0.42,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 331,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.86,
+            "probabilities": {
+              "rule_reply": 0.93,
+              "gemini_live": 0.07
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.69
+          }
+        },
+        "usage": {
+          "input_tokens": 471,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.86,
+      "speakNoul": 0.69,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "D-two-unsure",
+      "group": "D busier scenes",
+      "note": "two unsure objects",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.44,
+              "in_path": true
+            },
+            {
+              "label": "bench",
+              "distance": "far",
+              "distance_m": 3.4,
+              "conf": 0.38,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 380,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.86,
+            "probabilities": {
+              "rule_reply": 0.93,
+              "gemini_live": 0.07
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.44
+          }
+        },
+        "usage": {
+          "input_tokens": 450,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.86,
+      "speakNoul": 0.44,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "E-chair-hindi",
+      "group": "E language and history",
+      "note": "chair 0.45, language hi",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "hi",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 336,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.86,
+            "probabilities": {
+              "rule_reply": 0.93,
+              "gemini_live": 0.07
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.49
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.86,
+      "speakNoul": 0.49,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "E-chair-last-rule",
+      "group": "E language and history",
+      "note": "chair 0.45, last route rule_reply",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": "rule_reply",
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 343,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.94,
+            "probabilities": {
+              "rule_reply": 0.97,
+              "gemini_live": 0.03
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.46
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.94,
+      "speakNoul": 0.46,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "E-chair-last-gemini",
+      "group": "E language and history",
+      "note": "chair 0.45, last route gemini_live",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": "gemini_live",
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 340,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.6,
+            "probabilities": {
+              "rule_reply": 0.8,
+              "gemini_live": 0.2
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.49
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.6,
+      "speakNoul": 0.49,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "E-bottle-hindi",
+      "group": "E language and history",
+      "note": "bottle 0.41, language hi",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "hi",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "bottle",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.41,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 315,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.47
+          }
+        },
+        "usage": {
+          "input_tokens": 425,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.47,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "F-scene-change-empty",
+      "group": "F other triggers",
+      "note": "scene change, nothing detected",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "scene_change",
+          "detections": []
+        }
+      },
+      "ms": 330,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.1,
+            "probabilities": {
+              "rule_reply": 0.45,
+              "gemini_live": 0.55
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.23
+          }
+        },
+        "usage": {
+          "input_tokens": 395,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.1,
+      "speakNoul": 0.23,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "F-scene-change-chair",
+      "group": "F other triggers",
+      "note": "scene change, confident chair",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "scene_change",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.88,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 335,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.84,
+            "probabilities": {
+              "rule_reply": 0.92,
+              "gemini_live": 0.08
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.42
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.84,
+      "speakNoul": 0.42,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "F-text-region",
+      "group": "F other triggers",
+      "note": "text region seen, bus",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": true,
+          "last_route": null,
+          "network": "online",
+          "trigger": "text_region",
+          "detections": [
+            {
+              "label": "bus",
+              "distance": "near",
+              "distance_m": 3,
+              "conf": 0.85,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 322,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.32,
+            "probabilities": {
+              "rule_reply": 0.66,
+              "gemini_live": 0.34
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.69
+          }
+        },
+        "usage": {
+          "input_tokens": 421,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.32,
+      "speakNoul": 0.69,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "F-text-region-none",
+      "group": "F other triggers",
+      "note": "text region seen, nothing else",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": true,
+          "last_route": null,
+          "network": "online",
+          "trigger": "text_region",
+          "detections": []
+        }
+      },
+      "ms": 315,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.22,
+            "probabilities": {
+              "rule_reply": 0.39,
+              "gemini_live": 0.61
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.22
+          }
+        },
+        "usage": {
+          "input_tokens": 395,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.22,
+      "speakNoul": 0.22,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-what_is_in_front_of_me",
+      "group": "G spoken questions (contrast)",
+      "note": "what is in front of me",
+      "input": {
+        "state": {
+          "user_query": "what is in front of me",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.88,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 344,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.96,
+            "probabilities": {
+              "rule_reply": 0.98,
+              "gemini_live": 0.02
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.78
+          }
+        },
+        "usage": {
+          "input_tokens": 430,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.96,
+      "speakNoul": 0.78,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-how_far_is_the_chair",
+      "group": "G spoken questions (contrast)",
+      "note": "how far is the chair",
+      "input": {
+        "state": {
+          "user_query": "how far is the chair",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.88,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 322,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 1,
+            "probabilities": {
+              "rule_reply": 1,
+              "gemini_live": 0
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.83
+          }
+        },
+        "usage": {
+          "input_tokens": 429,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 1,
+      "speakNoul": 0.83,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-read_this_note",
+      "group": "G spoken questions (contrast)",
+      "note": "read this note",
+      "input": {
+        "state": {
+          "user_query": "read this note",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "book",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.6,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 315,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.94,
+            "probabilities": {
+              "rule_reply": 0.03,
+              "gemini_live": 0.97
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.56
+          }
+        },
+        "usage": {
+          "input_tokens": 426,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.94,
+      "speakNoul": 0.56,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    },
+    {
+      "id": "G-what_does_the_sign_say",
+      "group": "G spoken questions (contrast)",
+      "note": "what does the sign say",
+      "input": {
+        "state": {
+          "user_query": "what does the sign say",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": []
+        }
+      },
+      "ms": 340,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.98,
+            "probabilities": {
+              "rule_reply": 0.01,
+              "gemini_live": 0.99
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.52
+          }
+        },
+        "usage": {
+          "input_tokens": 401,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.98,
+      "speakNoul": 0.52,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    },
+    {
+      "id": "G-describe_the_scene",
+      "group": "G spoken questions (contrast)",
+      "note": "describe the scene",
+      "input": {
+        "state": {
+          "user_query": "describe the scene",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "person",
+              "distance": "far",
+              "distance_m": 4,
+              "conf": 0.9,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 345,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.36,
+            "probabilities": {
+              "rule_reply": 0.68,
+              "gemini_live": 0.32
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.69
+          }
+        },
+        "usage": {
+          "input_tokens": 424,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.36,
+      "speakNoul": 0.69,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-can_I_go_to_the_right",
+      "group": "G spoken questions (contrast)",
+      "note": "can I go to the right",
+      "input": {
+        "state": {
+          "user_query": "can I go to the right",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.8,
+              "in_path": false
+            }
+          ]
+        }
+      },
+      "ms": 318,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.14,
+            "probabilities": {
+              "rule_reply": 0.43,
+              "gemini_live": 0.57
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.68
+          }
+        },
+        "usage": {
+          "input_tokens": 429,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.14,
+      "speakNoul": 0.68,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-is_it_safe_to_cross",
+      "group": "G spoken questions (contrast)",
+      "note": "is it safe to cross",
+      "input": {
+        "state": {
+          "user_query": "is it safe to cross",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "car",
+              "distance": "far",
+              "distance_m": 8,
+              "conf": 0.9,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 335,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.08,
+            "probabilities": {
+              "rule_reply": 0.54,
+              "gemini_live": 0.46
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.79
+          }
+        },
+        "usage": {
+          "input_tokens": 426,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.08,
+      "speakNoul": 0.79,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-who_is_there",
+      "group": "G spoken questions (contrast)",
+      "note": "who is there",
+      "input": {
+        "state": {
+          "user_query": "who is there",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "person",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.9,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 305,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.82,
+            "probabilities": {
+              "rule_reply": 0.91,
+              "gemini_live": 0.09
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.68
+          }
+        },
+        "usage": {
+          "input_tokens": 426,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.82,
+      "speakNoul": 0.68,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-is_this_a_hundred_rupee_note",
+      "group": "G spoken questions (contrast)",
+      "note": "is this a hundred rupee note",
+      "input": {
+        "state": {
+          "user_query": "is this a hundred rupee note",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": []
+        }
+      },
+      "ms": 333,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.82,
+            "probabilities": {
+              "rule_reply": 0.09,
+              "gemini_live": 0.91
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.57
+          }
+        },
+        "usage": {
+          "input_tokens": 403,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.82,
+      "speakNoul": 0.57,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    },
+    {
+      "id": "G-सामने_क्या_है",
+      "group": "G spoken questions (contrast)",
+      "note": "सामने क्या है",
+      "input": {
+        "state": {
+          "user_query": "सामने क्या है",
+          "language": "hi",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.88,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 327,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.96,
+            "probabilities": {
+              "rule_reply": 0.98,
+              "gemini_live": 0.02
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.77
+          }
+        },
+        "usage": {
+          "input_tokens": 431,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.96,
+      "speakNoul": 0.77,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "G-यह_नोट_कितने_का_है",
+      "group": "G spoken questions (contrast)",
+      "note": "यह नोट कितने का है",
+      "input": {
+        "state": {
+          "user_query": "यह नोट कितने का है",
+          "language": "hi",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": []
+        }
+      },
+      "ms": 345,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.96,
+            "probabilities": {
+              "rule_reply": 0.02,
+              "gemini_live": 0.98
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.67
+          }
+        },
+        "usage": {
+          "input_tokens": 408,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.96,
+      "speakNoul": 0.67,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    },
+    {
+      "id": "G-padh_ke_batao",
+      "group": "G spoken questions (contrast)",
+      "note": "padh ke batao",
+      "input": {
+        "state": {
+          "user_query": "padh ke batao",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "book",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.6,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 336,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.94,
+            "probabilities": {
+              "rule_reply": 0.03,
+              "gemini_live": 0.97
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.62
+          }
+        },
+        "usage": {
+          "input_tokens": 428,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.94,
+      "speakNoul": 0.62,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    },
+    {
+      "id": "G-kitni_door_hai",
+      "group": "G spoken questions (contrast)",
+      "note": "kitni door hai",
+      "input": {
+        "state": {
+          "user_query": "kitni door hai",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.88,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 330,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.66,
+            "probabilities": {
+              "rule_reply": 0.83,
+              "gemini_live": 0.17
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.69
+          }
+        },
+        "usage": {
+          "input_tokens": 428,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.66,
+      "speakNoul": 0.69,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "default",
+        "speakNow": true,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "H-chair-0.45-run2",
+      "group": "H repeat (same input)",
+      "note": "chair 0.45 again",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 340,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.88,
+            "probabilities": {
+              "rule_reply": 0.94,
+              "gemini_live": 0.06
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.49
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.88,
+      "speakNoul": 0.49,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "H-dog-0.42-run2",
+      "group": "H repeat (same input)",
+      "note": "dog 0.42 again",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "dog",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.42,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 360,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.92,
+            "probabilities": {
+              "rule_reply": 0.96,
+              "gemini_live": 0.04
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.61
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.92,
+      "speakNoul": 0.61,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "H-read-note-run2",
+      "group": "H repeat (same input)",
+      "note": "read this note again",
+      "input": {
+        "state": {
+          "user_query": "read this note",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "book",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.6,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 309,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.96,
+            "probabilities": {
+              "rule_reply": 0.02,
+              "gemini_live": 0.98
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.57
+          }
+        },
+        "usage": {
+          "input_tokens": 426,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.96,
+      "speakNoul": 0.57,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    },
+    {
+      "id": "H-chair-0.45-run3",
+      "group": "H repeat (same input)",
+      "note": "chair 0.45 again",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "chair",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.45,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 359,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.47
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.47,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "H-dog-0.42-run3",
+      "group": "H repeat (same input)",
+      "note": "dog 0.42 again",
+      "input": {
+        "state": {
+          "user_query": null,
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "new_object",
+          "detections": [
+            {
+              "label": "dog",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.42,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 350,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "rule_reply",
+            "confidence": 0.9,
+            "probabilities": {
+              "rule_reply": 0.95,
+              "gemini_live": 0.05
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.61
+          }
+        },
+        "usage": {
+          "input_tokens": 423,
+          "output_tokens": 54
+        }
+      },
+      "choice": "rule_reply",
+      "routeConfidence": 0.9,
+      "speakNoul": 0.61,
+      "decision": {
+        "handler": "rule_reply",
+        "source": "jev",
+        "speakNow": false,
+        "opensGemini": false
+      }
+    },
+    {
+      "id": "H-read-note-run3",
+      "group": "H repeat (same input)",
+      "note": "read this note again",
+      "input": {
+        "state": {
+          "user_query": "read this note",
+          "language": "en",
+          "text_region_detected": false,
+          "last_route": null,
+          "network": "online",
+          "trigger": "user_speech",
+          "detections": [
+            {
+              "label": "book",
+              "distance": "near",
+              "distance_m": 1.5,
+              "conf": 0.6,
+              "in_path": true
+            }
+          ]
+        }
+      },
+      "ms": 321,
+      "http": 200,
+      "withinBudget": true,
+      "raw": {
+        "model": "jev-1.13.0",
+        "answers": {
+          "route": {
+            "type": "choice",
+            "choice": "gemini_live",
+            "confidence": 0.94,
+            "probabilities": {
+              "rule_reply": 0.03,
+              "gemini_live": 0.97
+            }
+          },
+          "speak_now": {
+            "type": "noul",
+            "noul": 0.57
+          }
+        },
+        "usage": {
+          "input_tokens": 426,
+          "output_tokens": 55
+        }
+      },
+      "choice": "gemini_live",
+      "routeConfidence": 0.94,
+      "speakNoul": 0.57,
+      "decision": {
+        "handler": "gemini_live",
+        "source": "jev",
+        "speakNow": true,
+        "opensGemini": true
+      }
+    }
+  ]
+}
