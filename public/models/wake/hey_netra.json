@@ -1,0 +1,5 @@
+{
+  "threshold": 0.7,
+  "consecutive": 2,
+  "cooldownMs": 2500
+}

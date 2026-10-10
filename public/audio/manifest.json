@@ -1,0 +1,276 @@
+{
+  "en": {
+    "starting": {
+      "text": "Starting Netra. Allow camera access.",
+      "file": "/audio/en/starting.mp3",
+      "speaker": "shubh"
+    },
+    "allowMic": {
+      "text": "Camera on. Allow microphone access for voice.",
+      "file": "/audio/en/allowMic.mp3",
+      "speaker": "shubh"
+    },
+    "loadFirst": {
+      "text": "Loading vision model for the first time. This can take up to a minute. Later starts are much faster.",
+      "file": "/audio/en/loadFirst.mp3",
+      "speaker": "shubh"
+    },
+    "ready": {
+      "text": "Netra is ready.",
+      "file": "/audio/en/ready.mp3",
+      "speaker": "shubh"
+    },
+    "noVibration": {
+      "text": "Vibration is not supported on this phone.",
+      "file": "/audio/en/noVibration.mp3",
+      "speaker": "shubh"
+    },
+    "noWakeLock": {
+      "text": "Screen may turn off; keep it awake manually.",
+      "file": "/audio/en/noWakeLock.mp3",
+      "speaker": "shubh"
+    },
+    "micOff": {
+      "text": "Microphone is off, so voice questions are unavailable.",
+      "file": "/audio/en/micOff.mp3",
+      "speaker": "shubh"
+    },
+    "stopped": {
+      "text": "Netra stopped. Tap the yellow button to start again.",
+      "file": "/audio/en/stopped.mp3",
+      "speaker": "shubh"
+    },
+    "quietOn": {
+      "text": "Quiet mode on. Only alerts and answers.",
+      "file": "/audio/en/quietOn.mp3",
+      "speaker": "shubh"
+    },
+    "quietOff": {
+      "text": "Quiet mode off.",
+      "file": "/audio/en/quietOff.mp3",
+      "speaker": "shubh"
+    },
+    "cameraDenied": {
+      "text": "Camera permission was denied. Please allow camera access and tap again.",
+      "file": "/audio/en/cameraDenied.mp3",
+      "speaker": "shubh"
+    },
+    "startFailed": {
+      "text": "Could not start. Tap to try again.",
+      "file": "/audio/en/startFailed.mp3",
+      "speaker": "shubh"
+    },
+    "liveDown": {
+      "text": "Voice assistant is unavailable.",
+      "file": "/audio/en/liveDown.mp3",
+      "speaker": "shubh"
+    },
+    "wakeDown": {
+      "text": "Hey Netra listening is unavailable. Use double tap instead.",
+      "file": "/audio/en/wakeDown.mp3",
+      "speaker": "shubh"
+    },
+    "langSet": {
+      "text": "English selected.",
+      "file": "/audio/en/langSet.mp3",
+      "speaker": "shubh"
+    },
+    "tapToStart": {
+      "text": "Tap anywhere on the screen to start Netra.",
+      "file": "/audio/en/tapToStart.mp3",
+      "speaker": "shubh"
+    },
+    "permCamera": {
+      "text": "Netra needs the camera. Please tap Allow.",
+      "file": "/audio/en/permCamera.mp3",
+      "speaker": "shubh"
+    },
+    "permCameraBlocked": {
+      "text": "The camera is blocked. Open Chrome settings, then Site settings, then Camera, and allow this site. Netra will continue by itself.",
+      "file": "/audio/en/permCameraBlocked.mp3",
+      "speaker": "shubh"
+    },
+    "permMic": {
+      "text": "Netra needs the microphone. Please tap Allow.",
+      "file": "/audio/en/permMic.mp3",
+      "speaker": "shubh"
+    },
+    "permMicBlocked": {
+      "text": "The microphone is blocked. Open Chrome settings, then Site settings, then Microphone, and allow this site. Netra will continue by itself.",
+      "file": "/audio/en/permMicBlocked.mp3",
+      "speaker": "shubh"
+    },
+    "tapAnywhere": {
+      "text": "Netra is running. Tap anywhere to turn on voice.",
+      "file": "/audio/en/tapAnywhere.mp3",
+      "speaker": "shubh"
+    },
+    "cameraLost": {
+      "text": "Camera stopped. Restarting.",
+      "file": "/audio/en/cameraLost.mp3",
+      "speaker": "shubh"
+    },
+    "cameraBack": {
+      "text": "Camera back.",
+      "file": "/audio/en/cameraBack.mp3",
+      "speaker": "shubh"
+    },
+    "lightAutoOn": {
+      "text": "It is dark. Light turned on.",
+      "file": "/audio/en/lightAutoOn.mp3",
+      "speaker": "shubh"
+    },
+    "lightAutoOff": {
+      "text": "It is bright. Light turned off.",
+      "file": "/audio/en/lightAutoOff.mp3",
+      "speaker": "shubh"
+    },
+    "lightFailed": {
+      "text": "Could not switch the light.",
+      "file": "/audio/en/lightFailed.mp3",
+      "speaker": "shubh"
+    },
+    "startingShort": {
+      "text": "Starting Netra.",
+      "file": "/audio/en/startingShort.mp3",
+      "speaker": "shubh"
+    }
+  },
+  "hi": {
+    "starting": {
+      "text": "नेत्र शुरू हो रहा है। कृपया कैमरा की अनुमति दें।",
+      "file": "/audio/hi/starting.mp3",
+      "speaker": "shubh"
+    },
+    "allowMic": {
+      "text": "कैमरा चालू। आवाज़ के लिए माइक की अनुमति दें।",
+      "file": "/audio/hi/allowMic.mp3",
+      "speaker": "shubh"
+    },
+    "loadFirst": {
+      "text": "विज़न मॉडल पहली बार लोड हो रहा है। इसमें एक मिनट तक लग सकता है। अगली बार बहुत जल्दी होगा।",
+      "file": "/audio/hi/loadFirst.mp3",
+      "speaker": "shubh"
+    },
+    "ready": {
+      "text": "नेत्र तैयार है।",
+      "file": "/audio/hi/ready.mp3",
+      "speaker": "shubh"
+    },
+    "noVibration": {
+      "text": "इस फ़ोन में वाइब्रेशन उपलब्ध नहीं है।",
+      "file": "/audio/hi/noVibration.mp3",
+      "speaker": "shubh"
+    },
+    "noWakeLock": {
+      "text": "स्क्रीन बंद हो सकती है; कृपया उसे चालू रखें।",
+      "file": "/audio/hi/noWakeLock.mp3",
+      "speaker": "shubh"
+    },
+    "micOff": {
+      "text": "माइक बंद है, इसलिए आवाज़ से सवाल नहीं पूछ सकते।",
+      "file": "/audio/hi/micOff.mp3",
+      "speaker": "shubh"
+    },
+    "stopped": {
+      "text": "नेत्र बंद हो गया। दोबारा शुरू करने के लिए पीला बटन दबाएँ।",
+      "file": "/audio/hi/stopped.mp3",
+      "speaker": "shubh"
+    },
+    "quietOn": {
+      "text": "शांत मोड चालू। सिर्फ़ चेतावनी और जवाब।",
+      "file": "/audio/hi/quietOn.mp3",
+      "speaker": "shubh"
+    },
+    "quietOff": {
+      "text": "शांत मोड बंद।",
+      "file": "/audio/hi/quietOff.mp3",
+      "speaker": "shubh"
+    },
+    "cameraDenied": {
+      "text": "कैमरा की अनुमति नहीं मिली। कृपया अनुमति दें और फिर से दबाएँ।",
+      "file": "/audio/hi/cameraDenied.mp3",
+      "speaker": "shubh"
+    },
+    "startFailed": {
+      "text": "शुरू नहीं हो सका। फिर से दबाएँ।",
+      "file": "/audio/hi/startFailed.mp3",
+      "speaker": "shubh"
+    },
+    "liveDown": {
+      "text": "आवाज़ वाला सहायक अभी उपलब्ध नहीं है।",
+      "file": "/audio/hi/liveDown.mp3",
+      "speaker": "shubh"
+    },
+    "wakeDown": {
+      "text": "हे नेत्र सुनना उपलब्ध नहीं है। कृपया दो बार टैप करें।",
+      "file": "/audio/hi/wakeDown.mp3",
+      "speaker": "shubh"
+    },
+    "langSet": {
+      "text": "हिंदी चुनी गई।",
+      "file": "/audio/hi/langSet.mp3",
+      "speaker": "shubh"
+    },
+    "tapToStart": {
+      "text": "नेत्र शुरू करने के लिए स्क्रीन पर कहीं भी टैप करें।",
+      "file": "/audio/hi/tapToStart.mp3",
+      "speaker": "shubh"
+    },
+    "permCamera": {
+      "text": "नेत्र को कैमरा चाहिए। कृपया अनुमति दें दबाएँ।",
+      "file": "/audio/hi/permCamera.mp3",
+      "speaker": "shubh"
+    },
+    "permCameraBlocked": {
+      "text": "कैमरा बंद है। क्रोम की सेटिंग में साइट सेटिंग, फिर कैमरा खोलकर इस साइट को अनुमति दें। नेत्र अपने आप आगे बढ़ेगा।",
+      "file": "/audio/hi/permCameraBlocked.mp3",
+      "speaker": "shubh"
+    },
+    "permMic": {
+      "text": "नेत्र को माइक्रोफ़ोन चाहिए। कृपया अनुमति दें दबाएँ।",
+      "file": "/audio/hi/permMic.mp3",
+      "speaker": "shubh"
+    },
+    "permMicBlocked": {
+      "text": "माइक्रोफ़ोन बंद है। क्रोम की सेटिंग में साइट सेटिंग, फिर माइक्रोफ़ोन खोलकर इस साइट को अनुमति दें। नेत्र अपने आप आगे बढ़ेगा।",
+      "file": "/audio/hi/permMicBlocked.mp3",
+      "speaker": "shubh"
+    },
+    "tapAnywhere": {
+      "text": "नेत्र चल रहा है। आवाज़ चालू करने के लिए स्क्रीन पर कहीं भी टैप करें।",
+      "file": "/audio/hi/tapAnywhere.mp3",
+      "speaker": "shubh"
+    },
+    "cameraLost": {
+      "text": "कैमरा बंद हो गया। दोबारा चालू कर रहे हैं।",
+      "file": "/audio/hi/cameraLost.mp3",
+      "speaker": "shubh"
+    },
+    "cameraBack": {
+      "text": "कैमरा वापस चालू।",
+      "file": "/audio/hi/cameraBack.mp3",
+      "speaker": "shubh"
+    },
+    "lightAutoOn": {
+      "text": "अंधेरा है। लाइट चालू कर दी।",
+      "file": "/audio/hi/lightAutoOn.mp3",
+      "speaker": "shubh"
+    },
+    "lightAutoOff": {
+      "text": "उजाला है। लाइट बंद कर दी।",
+      "file": "/audio/hi/lightAutoOff.mp3",
+      "speaker": "shubh"
+    },
+    "lightFailed": {
+      "text": "लाइट नहीं बदल सकी।",
+      "file": "/audio/hi/lightFailed.mp3",
+      "speaker": "shubh"
+    },
+    "startingShort": {
+      "text": "नेत्र शुरू हो रहा है।",
+      "file": "/audio/hi/startingShort.mp3",
+      "speaker": "shubh"
+    }
+  }
+}

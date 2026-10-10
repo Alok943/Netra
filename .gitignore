@@ -1,0 +1,21 @@
+node_modules
+dist
+.vercel
+
+# Secrets: never commit these
+.env
+.env.*
+!.env.example
+
+*.log
+.DS_Store
+
+# Stage 1
+ml/.venv/
+public/ort/
+ml/export/*.pt
+ml/export/variants/
+ml/export/*.log
+ml/wakeword/data/
+ml/wakeword/out/
+ml/wakeword/gen.log
