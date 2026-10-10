@@ -1,6 +1,8 @@
 # Netra
 
-An AI assistant for visually impaired users in India. It is a React app (a PWA) that runs in Chrome on an Android phone, held at chest height or worn on a lanyard with the camera facing forward. Netra watches the way ahead, warns about obstacles **by vibration**, names what is in the path **by voice**, and answers spoken questions.
+**Real-time object detection for blind users, with a voice assistant.**
+
+Netra is built for visually impaired users in India. It is a React app (a PWA) that runs in Chrome on an Android phone, held at chest height or worn on a lanyard with the camera facing forward. It watches the way ahead, warns about obstacles **by vibration**, names what is in the path **by voice**, and answers spoken questions.
 
 The core idea is that **safety never depends on the internet or on an AI service**. Detecting an obstacle and buzzing the phone runs on the phone itself. Cloud AI (Gemini Live, Jev) is optional help layered on top.
 
