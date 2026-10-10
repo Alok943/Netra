@@ -53,10 +53,10 @@ export async function fetchEphemeralToken(): Promise<{ token: string; model: str
 }
 
 const FRAME_INTERVAL_MS = 1000;
-/** How long the session waits for a follow-up question after Netra finishes speaking. */
-const FOLLOW_UP_MS = 7000;
-/** Give up if nothing at all is heard or said this long after opening. */
-const FIRST_TURN_MS = 7000;
+/** How long the session waits for a follow-up question after Netra finishes speaking (CONFIG.voice). */
+const FOLLOW_UP_MS = CONFIG.voice.followUpMs;
+/** Give up if nothing at all is heard or said this long after opening (CONFIG.voice). */
+const FIRST_TURN_MS = CONFIG.voice.firstTurnMs;
 
 export class GeminiLive implements LiveHandler {
   active = false;

@@ -28,6 +28,16 @@ export const CONFIG = {
     probeEveryMs: 20_000,
     jumpRatio: 1.3,
   },
+  voice: {
+    /** How long a spoken question is waited for (Ask Netra and the local command button) */
+    listenMs: 12_000,
+    /** "Hey Netra" opens Gemini Live straight away. false = listen first and answer simple questions on the phone. */
+    wakeOpensGemini: true,
+    /** Gemini Live session: wait this long for the first question, and this long for a follow-up after an answer.
+     *  Longer is easier to use; shorter costs less because the microphone and camera stream while it waits. */
+    firstTurnMs: 15_000,
+    followUpMs: 10_000,
+  },
   detector: {
     /** GPU phones get the bigger, more accurate model; WASM-only phones get the nano one. */
     models: {

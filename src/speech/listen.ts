@@ -7,20 +7,39 @@ interface Rec extends EventTarget {
   abort(): void;
   onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
   onend: (() => void) | null;
-  onerror: (() => void) | null;
+  onerror: ((e: { error?: string }) => void) | null;
 }
 type Ctor = new () => Rec;
 
 const LANGUAGE_WORDS = /hindi|english|हिंदी|हिन्दी|अंग्रेज़ी|अंग्रेजी|इंग्लिश/i;
 const YES_NO_WORDS = /\b(yes|yeah|yep|okay|ok|no|nope|haan|han|ha|nahi|nahin|na)\b|हाँ|हां|नहीं|नही|ठीक|(^|\s)(हा|जी|ना)(\s|$)/i;
 
-/** Listens for up to timeoutMs and resolves with what it heard ("" if nothing or unsupported). Stops early once `until` matches. */
+/** Short pause before listening, so the cue buzz and the tail of "Hey Netra" are not heard as the question. */
+const START_DELAY_MS = 350;
+/** Errors that retrying cannot fix. Anything else (no speech yet, a busy microphone) is retried while time remains. */
+const FATAL_ERRORS = new Set(["not-allowed", "service-not-allowed", "language-not-supported"]);
+
+let lastError = "";
+/** Why the last listenOnce heard nothing, for the status line ("no-speech", "audio-capture", ...). Empty if no error. */
+export function lastListenError(): string {
+  return lastError;
+}
+
+/**
+ * Listens for up to timeoutMs and resolves with what it heard ("" if nothing or unsupported). Stops early once `until` matches.
+ * Chrome ends a recognition after a short silence, so if nothing has been heard yet it listens again until the time is up.
+ */
 export function listenOnce(lang: string, timeoutMs: number, until: RegExp = LANGUAGE_WORDS): Promise<string> {
   const w = window as unknown as { SpeechRecognition?: Ctor; webkitSpeechRecognition?: Ctor };
   const C = w.SpeechRecognition ?? w.webkitSpeechRecognition;
-  if (!C) return Promise.resolve("");
+  lastError = "";
+  if (!C) {
+    lastError = "unsupported";
+    return Promise.resolve("");
+  }
   return new Promise((resolve) => {
-    const rec = new C();
+    const t0 = performance.now();
+    let rec: Rec | null = null;
     let heard = "";
     let done = false;
     const finish = () => {
@@ -28,27 +47,43 @@ export function listenOnce(lang: string, timeoutMs: number, until: RegExp = LANG
       done = true;
       clearTimeout(timer);
       try {
-        rec.abort();
+        rec?.abort();
       } catch {
         /* ignore */
       }
       resolve(heard);
     };
     const timer = setTimeout(finish, timeoutMs);
-    rec.lang = lang;
-    rec.continuous = false;
-    rec.interimResults = true;
-    rec.onresult = (e) => {
-      heard = Array.from(e.results, (r) => r[0]?.transcript ?? "").join(" ");
-      if (until.test(heard)) finish();
+    const begin = () => {
+      if (done) return;
+      const r = new C();
+      rec = r;
+      r.lang = lang;
+      r.continuous = false;
+      r.interimResults = true;
+      r.onresult = (e) => {
+        heard = Array.from(e.results, (x) => x[0]?.transcript ?? "").join(" ");
+        if (until.test(heard)) finish();
+      };
+      r.onerror = (e) => {
+        lastError = e?.error ?? "error";
+      };
+      r.onend = () => {
+        if (done) return;
+        const timeLeft = timeoutMs - (performance.now() - t0);
+        if (!heard && timeLeft > 1500 && !FATAL_ERRORS.has(lastError)) {
+          setTimeout(begin, 300); // ended before the user spoke: listen again
+          return;
+        }
+        finish();
+      };
+      try {
+        r.start();
+      } catch {
+        finish();
+      }
     };
-    rec.onend = finish;
-    rec.onerror = finish;
-    try {
-      rec.start();
-    } catch {
-      finish();
-    }
+    setTimeout(begin, START_DELAY_MS);
   });
 }
 

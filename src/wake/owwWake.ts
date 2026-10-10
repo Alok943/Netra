@@ -90,9 +90,12 @@ export class OwwModel {
     return scores;
   }
 
-  /** Forget buffered audio (used after pausing). */
+  /** Forget all buffered audio and features (after pausing, or after falling too far behind). */
   reset(): void {
     this.pending = new Float32Array(0);
+    this.tail = new Float32Array(OVERLAP);
+    this.melRows = Array.from({ length: 76 }, () => new Float32Array(MEL_BINS).fill(1));
+    this.feats = [];
   }
 
   release(): void {
@@ -106,7 +109,7 @@ export class OwwModel {
     input.set(chunk, OVERLAP);
     this.tail = chunk.slice(CHUNK - OVERLAP);
 
-    const melOut = await withOrt(() => mel.run({ [mel.inputNames[0]]: new ort.Tensor("float32", input, [1, input.length]) }));
+    const melOut = await withOrt(() => mel.run({ [mel.inputNames[0]]: new ort.Tensor("float32", input, [1, input.length]) }), "high");
     const m = melOut[mel.outputNames[0]].data as Float32Array;
     for (let r = 0; r < m.length / MEL_BINS; r++) {
       const row = new Float32Array(MEL_BINS);
@@ -117,20 +120,30 @@ export class OwwModel {
 
     const flat = new Float32Array(76 * MEL_BINS);
     this.melRows.slice(-76).forEach((row, i) => flat.set(row, i * MEL_BINS));
-    const embOut = await withOrt(() => emb.run({ [emb.inputNames[0]]: new ort.Tensor("float32", flat, [1, 76, MEL_BINS, 1]) }));
+    const embOut = await withOrt(() => emb.run({ [emb.inputNames[0]]: new ort.Tensor("float32", flat, [1, 76, MEL_BINS, 1]) }), "high");
     this.feats.push(Float32Array.from(embOut[emb.outputNames[0]].data as Float32Array));
     if (this.feats.length > 60) this.feats.splice(0, this.feats.length - 60);
     if (this.feats.length < WINDOW) return null;
 
     const win = new Float32Array(WINDOW * 96);
     this.feats.slice(-WINDOW).forEach((f, i) => win.set(f, i * 96));
-    const out = await withOrt(() => head.run({ [head.inputNames[0]]: new ort.Tensor("float32", win, [1, WINDOW, 96]) }));
+    const out = await withOrt(() => head.run({ [head.inputNames[0]]: new ort.Tensor("float32", win, [1, WINDOW, 96]) }), "high");
     return (out[head.outputNames[0]].data as Float32Array)[0];
   }
 }
 
-/** Starts listening on the shared microphone. Returns null when the model files are not installed. */
-export async function startOwwWake(onWake: () => void, onScore?: (score: number) => void): Promise<OwwHandle | null> {
+/** Audio older than this when its turn comes is dropped: a wake word heard seconds late is worse than a missed one. */
+const MAX_LAG_MS = 1000;
+
+/**
+ * Starts listening on the shared microphone. Returns null when the model files are not installed.
+ * `onLag` reports how far behind real time the scorer is (ms), for the debug bar.
+ */
+export async function startOwwWake(
+  onWake: () => void,
+  onScore?: (score: number) => void,
+  onLag?: (ms: number) => void,
+): Promise<OwwHandle | null> {
   const model = await OwwModel.load();
   if (!model) return null;
   const { threshold, consecutive, cooldownMs } = model.config;
@@ -145,8 +158,18 @@ export async function startOwwWake(onWake: () => void, onScore?: (score: number)
     if (paused || stopped) return;
     const f = new Float32Array(pcm.length);
     for (let i = 0; i < pcm.length; i++) f[i] = pcm[i]; // int16 values as floats, as the model expects
+    const heardAt = performance.now();
     queue = queue
       .then(async () => {
+        if (paused || stopped) return;
+        const lag = performance.now() - heardAt;
+        onLag?.(Math.round(lag));
+        if (lag > MAX_LAG_MS) {
+          // Fell behind (a long detector run, or a slow phone): start fresh instead of scoring stale audio.
+          model.reset();
+          streak = 0;
+          return;
+        }
         for (const score of await model.feed(f)) {
           onScore?.(score);
           streak = score >= threshold ? streak + 1 : 0;

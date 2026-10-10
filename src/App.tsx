@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
-import { listeningChime } from "./audio/earcon";
+import { failChime, listeningChime } from "./audio/earcon";
 import { TutorialPlayer } from "./audio/tutorial";
 import { actionNeedsText, localVisionReply, parseLocalVisionAction, readTextOnDevice } from "./actions/localVision";
 import { primeMicPermission } from "./audio/micCapture";
@@ -21,7 +21,7 @@ import { route } from "./router/router";
 import { describeObject, describeScene, isConfident } from "./router/ruleReply";
 import { localVoiceReply, voiceIntent } from "./router/voiceIntent";
 import { toRouterState, type Handler } from "./router/types";
-import { listenOnce, parseLanguage, parseYesNo, YES_NO } from "./speech/listen";
+import { lastListenError, listenOnce, parseLanguage, parseYesNo, YES_NO } from "./speech/listen";
 import { enqueueAfter, loadPrompts, playPrompt, promptFor } from "./speech/prompts";
 import { setSpeechLang, speak, speakAsync, stopSpeaking, warmUpSpeech } from "./speech/speak";
 import type { DangerLevel, Detection, Lang } from "./types";
@@ -113,7 +113,7 @@ export default function App() {
   const announcerRef = useRef(new Announcer());
   const langRef = useRef<Lang>(storedLang() ?? "en");
   const langChoiceRef = useRef<((l: Lang) => void) | null>(null);
-  const startLiveRef = useRef<(initialText?: string) => Promise<void>>(async () => {});
+  const startLiveRef = useRef<(initialText?: string, opts?: { fromWake?: boolean }) => Promise<void>>(async () => {});
   /** The last touch-explored control. A second tap on that exact control activates it. */
   const exploredControlRef = useRef<{ label: string; until: number; timer: number } | null>(null);
 
@@ -156,6 +156,8 @@ export default function App() {
   const [torchOn, setTorchOn] = useState(false);
   const [wakeInfo, setWakeInfo] = useState("off");
   const [wakeScore, setWakeScore] = useState(0);
+  /** How far behind real time the wake-word scorer is (ms). Above about 1000 its audio is dropped. */
+  const [wakeLag, setWakeLag] = useState(0);
   const [trainedWake, setTrainedWake] = useState<boolean | null>(null);
   const owwRef = useRef<OwwHandle | null>(null);
 
@@ -599,14 +601,18 @@ export default function App() {
     announce(T().stopped);
   }, [announce]);
 
-  const startLive = useCallback(async (initialText?: string) => {
+  const startLive = useCallback(async (initialText?: string, startOpts: { fromWake?: boolean } = {}) => {
     if (live.active || !runningRef.current) return;
     const { w, h } = frameRef.current;
+    // After "Hey Netra" the phone's own voice stays silent (owner decision): a failure is a chime and a buzz, and
+    // the reason is shown on screen only.
+    const silentFallback = startOpts.fromWake === true;
     if (!navigator.onLine) {
       // Offline: the on-device rule reply still answers.
       const text = describeScene(detectionsRef.current, w, h, langRef.current);
       setStatus(text);
-      speak(text, "query");
+      if (silentFallback) failChime();
+      else speak(text, "query");
       return;
     }
     tutorial.stop();
@@ -639,6 +645,11 @@ export default function App() {
       onError: (err) => {
         console.error("[live]", err);
         const text = describeScene(detectionsRef.current, w, h, langRef.current);
+        if (silentFallback) {
+          setStatus(`${T().liveDown} ${text}`);
+          failChime();
+          return;
+        }
         setStatus(text);
         speak(`${T().liveDown} ${text}`, "query");
       },
@@ -658,10 +669,11 @@ export default function App() {
     phoneHaptics.pulse("listening");
     // Do not stop early on a keyword: Chrome ends this single utterance when the
     // user finishes, then the local router can answer from the current frame.
-    const heard = await listenOnce(SPEECH_LANG[langNow], 6000, /$a/);
+    const heard = await listenOnce(SPEECH_LANG[langNow], CONFIG.voice.listenMs, /$a/);
     if (!heard) {
       const text = langNow === "hi" ? "मुझे सवाल सुनाई नहीं दिया।" : "I did not hear a question.";
-      setStatus(text);
+      const why = lastListenError();
+      setStatus(why ? `${text} (${why})` : text);
       speak(text, "query");
       return;
     }
@@ -687,7 +699,7 @@ export default function App() {
     const langNow = langRef.current;
     setStatus(langNow === "hi" ? "स्थानीय कमांड सुन रहा है।" : "Listening for a local command.");
     phoneHaptics.pulse("listening");
-    const heard = await listenOnce(SPEECH_LANG[langNow], 6000);
+    const heard = await listenOnce(SPEECH_LANG[langNow], CONFIG.voice.listenMs);
     if (!heard) {
       const text = langNow === "hi" ? "मुझे कमांड सुनाई नहीं दी।" : "I did not hear a command.";
       setStatus(text);
@@ -899,7 +911,11 @@ export default function App() {
 
   const onWake = useCallback(() => {
     // Ignored while a danger alert is active: the reflex path owns the user's attention.
-    if (!live.active && dangerRef.current !== "very_near") void talkRef.current();
+    if (live.active || dangerRef.current === "very_near") return;
+    // Cut off anything the phone is saying (announcements, recordings) so the wake is answered by the chime alone.
+    stopSpeaking();
+    if (CONFIG.voice.wakeOpensGemini) void startLiveRef.current(undefined, { fromWake: true });
+    else void talkRef.current();
   }, []);
 
   // "Hey Netra" (toggle in the debug bar). First choice: the trained on-device model. If its files are not
@@ -910,7 +926,11 @@ export default function App() {
       return;
     }
     let cancelled = false;
-    void startOwwWake(onWake, (s) => setWakeScore(Math.round(s * 100) / 100)).then((handle) => {
+    void startOwwWake(
+      onWake,
+      (s) => setWakeScore(Math.round(s * 100) / 100),
+      (ms) => setWakeLag(ms),
+    ).then((handle) => {
       if (cancelled) return handle?.stop();
       owwRef.current = handle;
       setTrainedWake(handle !== null);
@@ -1135,6 +1155,7 @@ export default function App() {
             )}
             <span>wake: {wakeInfo}</span>
             {trainedWake && <span>wake score: {wakeScore}</span>}
+            {trainedWake && <span>wake lag: {wakeLag} ms</span>}
             {routeInfo && <span>route: {routeInfo}</span>}
             <span>danger: {danger}</span>
             <span>cane: {cane.connected ? "on" : "off"}</span>
