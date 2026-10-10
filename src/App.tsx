@@ -19,6 +19,7 @@ import { ReflexEngine } from "./reflex/reflexEngine";
 import { Announcer } from "./router/announcer";
 import { route } from "./router/router";
 import { describeObject, describeScene, isConfident } from "./router/ruleReply";
+import { localVoiceReply, voiceIntent } from "./router/voiceIntent";
 import { toRouterState, type Handler } from "./router/types";
 import { listenOnce, parseLanguage, parseYesNo, YES_NO } from "./speech/listen";
 import { enqueueAfter, loadPrompts, playPrompt, promptFor } from "./speech/prompts";
@@ -599,10 +600,34 @@ export default function App() {
   }, []);
   startLiveRef.current = startLive;
 
-  const talk = useCallback(() => {
-    // Tap to talk: opens (or closes) a Gemini Live voice session. Offline it falls back to the rule reply.
-    if (live.active) void live.stop();
-    else void startLive();
+  const talk = useCallback(async () => {
+    if (live.active) {
+      await live.stop();
+      return;
+    }
+    if (!runningRef.current) return;
+    const langNow = langRef.current;
+    setStatus(langNow === "hi" ? "सवाल सुन रहा है।" : "Listening for your question.");
+    phoneHaptics.pulse("listening");
+    // Do not stop early on a keyword: Chrome ends this single utterance when the
+    // user finishes, then the local router can answer from the current frame.
+    const heard = await listenOnce(SPEECH_LANG[langNow], 6000, /$a/);
+    if (!heard) {
+      const text = langNow === "hi" ? "मुझे सवाल सुनाई नहीं दिया।" : "I did not hear a question.";
+      setStatus(text);
+      speak(text, "query");
+      return;
+    }
+    const { w, h } = frameRef.current;
+    const reply = localVoiceReply(voiceIntent(heard), heard, detectionsRef.current, w, h, langNow);
+    if (reply) {
+      setStatus(reply);
+      speak(reply, "query");
+      return;
+    }
+    // Text/scene requests are the only route that pays for Gemini. The spoken
+    // request is sent as text, so the user does not have to repeat it after setup.
+    await startLive(heard);
   }, [startLive]);
 
   /** Local command path for predictable vision actions. It never opens Gemini Live. */
@@ -932,8 +957,8 @@ export default function App() {
 
       {running && (
         <section className="controls">
-          <button className="talk" onClick={talk} aria-label="Tap to talk. Starts a voice conversation with Netra.">
-            {lang === "hi" ? "बोलिए" : "Tap to talk"}
+          <button className="talk" onClick={() => void talk()} aria-label="Ask Netra a question.">
+            {lang === "hi" ? "नेत्र से पूछें" : "Ask Netra"}
           </button>
           <button className="toggle" onClick={() => void askLocal()} aria-label="Ask Netra with local, no-Gemini vision rules.">
             {lang === "hi" ? "स्थानीय सवाल" : "Ask Netra offline"}
