@@ -19,12 +19,12 @@ The core idea is that **safety never depends on the internet or on an AI service
 | **Vibration warnings** | Two soft taps = object close in the path. Rapid strong buzz = very close. Three long pulses = camera stopped. A short buzz confirms that Netra has begun listening. Separate patterns exist for overhead objects and (future) drop-offs. Danger is vibration only, never speech, and never uses the network. |
 | **Spoken announcements** | A new object entering the path is named with side and distance ("chair, ahead, close, about 2 metres"). Unsure detections are worded "possibly a chair" and never trigger vibration. Crowds are summarised instead of listing everyone. One announcement per 4 s at most. |
 | **Voice questions** | **Ask Netra** listens once (Chrome speech recognition). Common walking questions ("what is ahead", "how far is the chair") are answered **on the phone from the detector's list**. Requests such as reading text or describing a scene open a **Gemini Live** session. **Ask Netra offline** never uses Gemini. |
-| **Hey Netra** | Optional hands-free start. Our own small on-device wake-word model (openWakeWord features plus a classifier trained on Sarvam voices), with a speech-recognition fallback. Off by default. |
+| **Hey Netra** | Hands-free start, on by default for new installs. Our own small on-device wake-word model (openWakeWord features plus a classifier trained on Sarvam voices), with a speech-recognition fallback. The user can turn it off. |
 | **Help me walk mode** | Local-first walking assistance. It prevents automatic escalation of uncertain detections to cloud AI; an explicit Ask Netra request can still open Gemini when needed. |
 | **Camera recovery** | If the screen locks or the user switches apps, Android stops the camera. Netra notices, vibrates, says "Camera stopped. Restarting.", reopens the camera and says "Camera back." |
 | **Flashlight** | Asks permission once, by voice or by tapping the screen. In Auto mode it switches on in the dark. To decide when to switch off, it briefly turns the light off every 20 s and looks at the real brightness. Light button: Auto / On / Off. |
 | **Languages** | English and Hindi: first-run question, labels, spoken text, object names and the Gemini prompt. |
-| **Built for blind users** | Whole-screen Start target, large buttons with spoken labels, system messages as recorded Sarvam voice clips (instant, offline), a spoken tutorial in English and Hindi, a first-run welcome and language question, screen-reader friendly markup (live-region off so TalkBack does not read on top of Netra). |
+| **Built for blind users** | Whole-screen Start target, large buttons with spoken labels, first-tap/second-tap activation, swipe-left/right control exploration and double-tap activation, system messages as recorded Sarvam voice clips (instant, offline), a spoken tutorial in English and Hindi, a first-run language choice, screen-reader friendly markup (live-region off so TalkBack does not read on top of Netra). |
 | **Offline** | Installable PWA. After one online launch, detection, vibration and spoken object names work without internet. Voice conversation needs internet. |
 
 ---
@@ -54,7 +54,7 @@ The core idea is that **safety never depends on the internet or on an AI service
                                         ├─ walking question ──► answer from detections        (free, on the phone)
                                         └─ read / describe  ──► Gemini Live (online, paid)
 
- Hey Netra (on-device wake word) ─────────────────────────────────────► Gemini Live session
+ Hey Netra (on-device wake word) ───────────────────────────────► listen once ─► local answer or Gemini when needed
 ```
 
 Priority is: **danger haptics > user question > proactive speech**. Camera-based danger haptics run alongside an active Gemini response; they do not interrupt it, because visual distance is only an estimate.

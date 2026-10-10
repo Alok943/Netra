@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { listeningChime } from "./audio/earcon";
 import { TutorialPlayer } from "./audio/tutorial";
 import { actionNeedsText, localVisionReply, parseLocalVisionAction, readTextOnDevice } from "./actions/localVision";
@@ -38,6 +38,7 @@ const cane = new CaneBluetoothStub(); // future: connect and add as a second hap
 const live = new GeminiLive();
 const tutorial = new TutorialPlayer();
 const TUTORIAL_HINT_KEY = "netra.tutorialHint";
+const CONTROL_CONFIRM_MS = 3000;
 
 const LANG_KEY = "netra.lang";
 const TORCH_KEY = "netra.torch";
@@ -113,20 +114,24 @@ export default function App() {
   const langRef = useRef<Lang>(storedLang() ?? "en");
   const langChoiceRef = useRef<((l: Lang) => void) | null>(null);
   const startLiveRef = useRef<(initialText?: string) => Promise<void>>(async () => {});
+  /** The last touch-explored control. A second tap on that exact control activates it. */
+  const exploredControlRef = useRef<{ label: string; until: number; timer: number } | null>(null);
 
   const [lang, setLangState] = useState<Lang>(langRef.current);
-  const [askingLang, setAskingLang] = useState(false);
+  // A new user chooses a language before seeing Start Netra or any permission prompt.
+  const [askingLang, setAskingLang] = useState(() => storedLang() === null);
   const [askingTorch, setAskingTorch] = useState(false);
   const [tutorialOn, setTutorialOn] = useState(false);
   const prevLiveRef = useRef<LiveState>("off");
-  const welcomedRef = useRef(false);
   const connectStartRef = useRef(0);
   const [connectMs, setConnectMs] = useState<number | null>(null);
   const torchChoiceRef = useRef<((yes: boolean | null) => void) | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
   const phaseRef = useRef<Phase>("idle");
   phaseRef.current = phase;
-  const [status, setStatus] = useState<string>(SYS[langRef.current].tapToStart);
+  const [status, setStatus] = useState<string>(() =>
+    storedLang() === null ? `${ASK_LANGUAGE.en} / ${ASK_LANGUAGE.hi}` : SYS[langRef.current].tapToStart,
+  );
   const [detections, setDetections] = useState<Detection[]>([]);
   const [danger, setDanger] = useState<DangerLevel>("none");
   const [frame, setFrame] = useState(frameRef.current);
@@ -138,9 +143,11 @@ export default function App() {
   const [routeInfo, setRouteInfo] = useState("");
   const [wakeOn, setWakeOn] = useState(() => {
     try {
-      return localStorage.getItem("netra.heyNetra") === "1";
+      // Wake is on for new installs. A user who explicitly turns it off keeps
+      // that choice across launches.
+      return localStorage.getItem("netra.heyNetra") !== "0";
     } catch {
-      return false;
+      return true;
     }
   });
   const [camInfo, setCamInfo] = useState("off");
@@ -218,6 +225,46 @@ export default function App() {
       if (!ok && !window.speechSynthesis?.speaking) speak(text, "system");
     });
   }, []);
+
+  /**
+   * Phone screen readers use explore-by-touch followed by a double tap. Netra
+   * also offers that pattern without requiring TalkBack: the first physical
+   * tap says what the control does; a second tap on the same control confirms
+   * the action. Keyboard and screen-reader generated clicks (detail === 0)
+   * remain immediate, because those systems already announce the control.
+   */
+  const exploreThenActivate = useCallback(
+    (label: string, action: () => void) => (event: MouseEvent<HTMLButtonElement>) => {
+      if (event.detail === 0) {
+        action();
+        return;
+      }
+      const now = performance.now();
+      const previous = exploredControlRef.current;
+      if (previous?.label === label && now <= previous.until) {
+        window.clearTimeout(previous.timer);
+        exploredControlRef.current = null;
+        action();
+        return;
+      }
+      if (previous) window.clearTimeout(previous.timer);
+      const message = langRef.current === "hi" ? `${label}. चलाने के लिए फिर से टैप करें।` : `${label}. Tap again to activate.`;
+      setStatus(message);
+      speak(message, "system");
+      const timer = window.setTimeout(() => {
+        if (exploredControlRef.current?.label === label) exploredControlRef.current = null;
+      }, CONTROL_CONFIRM_MS);
+      exploredControlRef.current = { label, until: now + CONTROL_CONFIRM_MS, timer };
+    },
+    [],
+  );
+
+  useEffect(
+    () => () => {
+      if (exploredControlRef.current) window.clearTimeout(exploredControlRef.current.timer);
+    },
+    [],
+  );
 
   /** Switches the flashlight. `auto` switches are spoken, because the user cannot see the light change. */
   const setLight = useCallback(
@@ -630,6 +677,10 @@ export default function App() {
     await startLive(heard);
   }, [startLive]);
 
+  // Lets the always-on wake listener use the same local-first question flow.
+  const talkRef = useRef(talk);
+  talkRef.current = talk;
+
   /** Local command path for predictable vision actions. It never opens Gemini Live. */
   const askLocal = useCallback(async () => {
     if (!runningRef.current) return;
@@ -651,9 +702,6 @@ export default function App() {
     setStatus(reply);
     speak(reply, "query");
   }, []);
-
-  const talkRef = useRef(talk);
-  talkRef.current = talk;
 
   const toggleQuiet = useCallback(() => {
     const next = !quietRef.current;
@@ -679,7 +727,22 @@ export default function App() {
     speak(text, "system");
   }, []);
 
-  /** Plays the recorded tutorial, or stops it. Needs a button press, which also lets the browser play sound. */
+  /** Starts the recorded tutorial. Language selection is also a user gesture, so first-run playback is permitted. */
+  const playTutorial = useCallback(async (tutorialLang = langRef.current) => {
+    if (live.active) await live.stop();
+    stopSpeaking();
+    setTutorialOn(true);
+    try {
+      await tutorial.play(tutorialLang, (step) => setStatus(step.text));
+    } catch (err) {
+      console.error("[tutorial]", err);
+      announce(SYS[tutorialLang].tutorialFailed);
+    } finally {
+      setTutorialOn(false);
+    }
+  }, [announce]);
+
+  /** Plays the recorded tutorial, or stops it. */
   const toggleTutorial = useCallback(async () => {
     if (tutorial.playing) {
       tutorial.stop();
@@ -687,18 +750,23 @@ export default function App() {
       setStatus(SYS[langRef.current].tutorial);
       return;
     }
-    if (live.active) await live.stop();
-    stopSpeaking();
-    setTutorialOn(true);
-    try {
-      await tutorial.play(langRef.current, (step) => setStatus(step.text));
-    } catch (err) {
-      console.error("[tutorial]", err);
-      announce(SYS[langRef.current].tutorialFailed);
-    } finally {
-      setTutorialOn(false);
-    }
-  }, [announce]);
+    await playTutorial();
+  }, [playTutorial]);
+
+  /** The two language buttons are live before Start on a first visit. */
+  const selectLanguage = useCallback(
+    (chosen: Lang) => {
+      // When the camera-start flow is asking, complete its pending race instead.
+      if (langChoiceRef.current) {
+        langChoiceRef.current(chosen);
+        return;
+      }
+      applyLang(chosen);
+      setAskingLang(false);
+      void playTutorial(chosen);
+    },
+    [applyLang, playTutorial],
+  );
 
   const switchLanguage = useCallback(() => {
     const next: Lang = langRef.current === "en" ? "hi" : "en";
@@ -706,21 +774,13 @@ export default function App() {
     announce(SYS[next].langSet);
   }, [applyLang, announce]);
 
-  // On open: start the speech engine warming up, and try to say the welcome line. Chrome only allows speech before
-  // the first touch in some cases (such as an installed app); if it is blocked, the first tap starts Netra anyway.
+  // On open, warm the speech engine. New users select a visible language first;
+  // this avoids competing voice listeners before their choice is known.
   useEffect(() => {
     warmUpSpeech();
     if (storedLang() === null) {
-      // Very first open: "Welcome to Netra", then straight to the language question, before anything else is asked
-      // (permissions come after, in start()). StrictMode runs effects twice in development, hence the flag.
-      if (!welcomedRef.current) {
-        welcomedRef.current = true;
-        void chooseLanguage().then((l) => {
-          void loadPrompts(l).then(() => {
-            if (phaseRef.current === "idle") announce(SYS[l].tapToStart);
-          });
-        });
-      }
+      // Browser autoplay rules may prevent speech before the first touch, but
+      // the large English/Hindi controls and status text are already present.
       return;
     }
     void loadPrompts(langRef.current).then(() => {
@@ -839,7 +899,7 @@ export default function App() {
 
   const onWake = useCallback(() => {
     // Ignored while a danger alert is active: the reflex path owns the user's attention.
-    if (!live.active && dangerRef.current !== "very_near") void startLiveRef.current();
+    if (!live.active && dangerRef.current !== "very_near") void talkRef.current();
   }, []);
 
   // "Hey Netra" (toggle in the debug bar). First choice: the trained on-device model. If its files are not
@@ -893,28 +953,90 @@ export default function App() {
     }
   }, []);
 
-  // Touch anywhere on the screen. Idle: a tap starts Netra. Running: a double-tap talks. Buttons and inputs don't count.
+  /** Index of the control selected by swipe navigation. Null means Ask Netra is selected on the first double tap. */
+  const a11yControlIndexRef = useRef<number | null>(null);
+
+  // Touch navigation: swipe right/left across an empty part of the screen to
+  // explore the next/previous control; double tap empty space to activate the
+  // selected control. Direct button taps retain the first-tap/second-tap flow.
   useEffect(() => {
     let last = { t: 0, x: 0, y: 0 };
+    let down: { x: number; y: number } | null = null;
+    const controls = () => Array.from(document.querySelectorAll<HTMLButtonElement>("[data-a11y-control]:not(:disabled)"));
+    const announceControl = (index: number) => {
+      const buttons = controls();
+      if (!buttons.length) return;
+      const normalised = (index + buttons.length) % buttons.length;
+      const button = buttons[normalised];
+      a11yControlIndexRef.current = normalised;
+      button.focus({ preventScroll: true });
+      const label = button.dataset.a11yControl ?? button.getAttribute("aria-label") ?? button.textContent?.trim() ?? "Control";
+      const text = langRef.current === "hi"
+        ? `${label}. नियंत्रण ${normalised + 1} में से ${buttons.length}। चलाने के लिए स्क्रीन पर दो बार टैप करें।`
+        : `${label}. Control ${normalised + 1} of ${buttons.length}. Double tap the screen to activate.`;
+      setStatus(text);
+      speak(text, "system");
+    };
+    const onDown = (e: PointerEvent) => {
+      if ((e.target as Element | null)?.closest("button, input, label, a, .lang-choice")) return;
+      down = { x: e.clientX, y: e.clientY };
+    };
     const onUp = (e: PointerEvent) => {
       if ((e.target as Element | null)?.closest("button, input, label, a, .lang-choice")) return;
+      // Do not let an exploratory tap start the camera while the user is choosing
+      // a language or answering the flashlight question.
+      if (askingLang || askingTorch) return;
+      // The first tap explores; the second stops the first-run tutorial and leaves
+      // the user at the Start Netra screen.
+      if (tutorialOn) {
+        const now = performance.now();
+        const near = Math.hypot(e.clientX - last.x, e.clientY - last.y) < 60;
+        if (now - last.t < 400 && near) {
+          tutorial.stop();
+          setTutorialOn(false);
+          const text = langRef.current === "hi" ? "ट्यूटोरियल बंद हो गया। नेत्र शुरू करने के लिए स्क्रीन पर कहीं भी टैप करें।" : "Tutorial stopped. Tap anywhere to start Netra.";
+          setStatus(text);
+          speak(text, "system");
+          last = { t: 0, x: 0, y: 0 };
+        } else {
+          last = { t: now, x: e.clientX, y: e.clientY };
+        }
+        return;
+      }
       if (phase === "idle" || phase === "error") {
         void start();
         return;
       }
       if (!running) return;
       const now = performance.now();
+      const dx = down ? e.clientX - down.x : 0;
+      const dy = down ? e.clientY - down.y : 0;
+      down = null;
+      if (Math.abs(dx) >= 60 && Math.abs(dx) > Math.abs(dy)) {
+        const count = controls().length;
+        if (count) announceControl((a11yControlIndexRef.current ?? (dx > 0 ? -1 : 0)) + (dx > 0 ? 1 : -1));
+        last = { t: 0, x: 0, y: 0 };
+        return;
+      }
       const near = Math.hypot(e.clientX - last.x, e.clientY - last.y) < 60;
       if (now - last.t < 400 && near) {
         last = { t: 0, x: 0, y: 0 };
-        talkRef.current();
+        const buttons = controls();
+        const selected = buttons.length ? (a11yControlIndexRef.current ?? 0) % buttons.length : 0;
+        // HTMLElement.click() creates a detail=0 click, which intentionally
+        // activates our selected control at once (as TalkBack does).
+        buttons[selected]?.click();
       } else {
         last = { t: now, x: e.clientX, y: e.clientY };
       }
     };
+    window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
-    return () => window.removeEventListener("pointerup", onUp);
-  }, [phase, running, start]);
+    return () => {
+      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
+    };
+  }, [askingLang, askingTorch, phase, running, start, tutorialOn]);
 
   const t = SYS[lang];
 
@@ -925,21 +1047,25 @@ export default function App() {
           <video ref={videoRef} className={debug ? "" : "hidden"} muted playsInline />
           {debug && running && <DebugOverlay detections={detections} width={frame.w} height={frame.h} />}
         </div>
-        {!running && !askingLang && !askingTorch && (
-          <button className="start" onClick={start} disabled={phase === "starting"}>
+        {!running && !askingLang && !askingTorch && !tutorialOn && (
+          <button
+            className="start"
+            onClick={exploreThenActivate(lang === "hi" ? "नेत्र शुरू करें" : "Start Netra", () => void start())}
+            disabled={phase === "starting"}
+          >
             {phase === "starting" ? "…" : lang === "hi" ? "नेत्र शुरू करें" : "Start Netra"}
           </button>
         )}
         {askingTorch && (
           <div className="lang-choice">
-            <button onClick={() => torchChoiceRef.current?.(true)}>{SYS[lang].yes}</button>
-            <button onClick={() => torchChoiceRef.current?.(false)}>{SYS[lang].no}</button>
+            <button onClick={exploreThenActivate(SYS[lang].yes, () => torchChoiceRef.current?.(true))}>{SYS[lang].yes}</button>
+            <button onClick={exploreThenActivate(SYS[lang].no, () => torchChoiceRef.current?.(false))}>{SYS[lang].no}</button>
           </div>
         )}
         {askingLang && (
           <div className="lang-choice">
-            <button onClick={() => langChoiceRef.current?.("en")}>English</button>
-            <button onClick={() => langChoiceRef.current?.("hi")}>हिन्दी</button>
+            <button onClick={exploreThenActivate("English", () => selectLanguage("en"))}>English</button>
+            <button onClick={exploreThenActivate("हिन्दी", () => selectLanguage("hi"))}>हिन्दी</button>
           </div>
         )}
       </div>
@@ -949,44 +1075,44 @@ export default function App() {
         {status}
       </p>
 
-      {!running && !askingLang && !askingTorch && (
-        <button className="toggle tutorial" onClick={() => void toggleTutorial()} aria-pressed={tutorialOn}>
+      {!running && !askingLang && !askingTorch && !tutorialOn && (
+        <button className="toggle tutorial" onClick={exploreThenActivate(tutorialOn ? t.tutorialStop : t.tutorial, () => void toggleTutorial())} aria-pressed={tutorialOn}>
           {tutorialOn ? t.tutorialStop : t.tutorial}
         </button>
       )}
 
       {running && (
         <section className="controls">
-          <button className="talk" onClick={() => void talk()} aria-label="Ask Netra a question.">
+          <button className="talk" data-a11y-control={lang === "hi" ? "नेत्र से पूछें" : "Ask Netra"} onClick={exploreThenActivate(lang === "hi" ? "नेत्र से पूछें" : "Ask Netra", () => void talk())} aria-label="Ask Netra a question.">
             {lang === "hi" ? "नेत्र से पूछें" : "Ask Netra"}
           </button>
-          <button className="toggle" onClick={() => void askLocal()} aria-label="Ask Netra with local, no-Gemini vision rules.">
+          <button className="toggle" data-a11y-control={lang === "hi" ? "स्थानीय सवाल" : "Ask Netra offline"} onClick={exploreThenActivate(lang === "hi" ? "स्थानीय सवाल" : "Ask Netra offline", () => void askLocal())} aria-label="Ask Netra with local, no-Gemini vision rules.">
             {lang === "hi" ? "स्थानीय सवाल" : "Ask Netra offline"}
           </button>
           <div className="row">
-            <button className={`toggle ${quiet ? "on" : ""}`} onClick={toggleQuiet} aria-pressed={quiet}>
+            <button className={`toggle ${quiet ? "on" : ""}`} data-a11y-control={lang === "hi" ? `शांत ${quiet ? "चालू" : "बंद"}` : `Quiet ${quiet ? "ON" : "OFF"}`} onClick={exploreThenActivate(lang === "hi" ? `शांत ${quiet ? "चालू" : "बंद"}` : `Quiet ${quiet ? "ON" : "OFF"}`, toggleQuiet)} aria-pressed={quiet}>
               {lang === "hi" ? `शांत ${quiet ? "चालू" : "बंद"}` : `Quiet ${quiet ? "ON" : "OFF"}`}
             </button>
-            <button className={`toggle ${walkMode ? "on" : ""}`} onClick={toggleWalkMode} aria-pressed={walkMode}>
+            <button className={`toggle ${walkMode ? "on" : ""}`} data-a11y-control={lang === "hi" ? `चलने में मदद ${walkMode ? "चालू" : "बंद"}` : `Help me walk ${walkMode ? "ON" : "OFF"}`} onClick={exploreThenActivate(lang === "hi" ? `चलने में मदद ${walkMode ? "चालू" : "बंद"}` : `Help me walk ${walkMode ? "ON" : "OFF"}`, toggleWalkMode)} aria-pressed={walkMode}>
               {lang === "hi" ? `चलने में मदद ${walkMode ? "चालू" : "बंद"}` : `Help me walk ${walkMode ? "ON" : "OFF"}`}
             </button>
-            <button className="toggle" onClick={switchLanguage} aria-label={t.switchLanguage}>
+            <button className="toggle" data-a11y-control={t.switchLanguage} onClick={exploreThenActivate(t.switchLanguage, switchLanguage)} aria-label={t.switchLanguage}>
               {lang === "en" ? "English" : "हिन्दी"}
             </button>
           </div>
           <div className="row">
             {torchOk && (
-              <button className={`toggle ${torchOn ? "on" : ""}`} onClick={cycleTorch} aria-label={t.lightMode[torchMode]}>
+              <button className={`toggle ${torchOn ? "on" : ""}`} data-a11y-control={t.lightMode[torchMode]} onClick={exploreThenActivate(t.lightMode[torchMode], cycleTorch)} aria-label={t.lightMode[torchMode]}>
                 {lang === "hi"
                   ? `लाइट: ${torchMode === "auto" ? "अपने आप" : torchMode === "on" ? "चालू" : "बंद"}`
                   : `Light: ${torchMode === "auto" ? "Auto" : torchMode === "on" ? "On" : "Off"}`}
               </button>
             )}
-            <button className="toggle" onClick={() => void stop()}>
+            <button className="toggle" data-a11y-control={lang === "hi" ? "बंद करें" : "Stop"} onClick={exploreThenActivate(lang === "hi" ? "बंद करें" : "Stop", () => void stop())}>
               {lang === "hi" ? "बंद करें" : "Stop"}
             </button>
           </div>
-          <button className="toggle" onClick={() => void toggleTutorial()} aria-pressed={tutorialOn}>
+          <button className="toggle" data-a11y-control={tutorialOn ? t.tutorialStop : t.tutorial} onClick={exploreThenActivate(tutorialOn ? t.tutorialStop : t.tutorial, () => void toggleTutorial())} aria-pressed={tutorialOn}>
             {tutorialOn ? t.tutorialStop : t.tutorial}
           </button>
           <div className="debug-bar">
